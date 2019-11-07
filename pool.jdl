@@ -1,0 +1,9 @@
+entity Monitor {
+  test String required maxlength(100)
+}
+
+entity PoolTest {
+    name String required maxlength(100),
+    url String maxlength(5),
+    poolSize String maxlength(10)
+}

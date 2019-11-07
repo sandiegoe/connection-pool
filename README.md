@@ -1,76 +1,28 @@
 # pool
-This application was generated using JHipster 4.14.5, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.14.5](http://www.jhipster.tech/documentation-archive/v4.14.5).
 
-This is a "microservice" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.
+## 1. 配置db连接信息
+修改src/main/resource/config目录下的application-dev.yml配置文件
+```
+datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/pool?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: passw0rd
 
-This application is configured for Service Discovery and Configuration with . On launch, it will refuse to start if it is not able to connect to .
+修改数据库ip地址
+创建pool数据库
+修改数据库用户名/密码信息
+```
 
-## Development
+## 2. 自动创建相关表
+在src/main/java/PoolApp.java 中右击run，会启动应用，并自动创建相关表：monitor(用于监控连接状态使用), pool_test(用于测试使用)   
+在出现如下信息时，表示自动创建成功，此时可以关闭应用
+```
+...
+Liquibase has updated your database in 1094 ms
+...
+```
 
-To start your application in the dev profile, simply run:
-
-    ./gradlew
-
-
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
-
-
-
-## Building for production
-
-To optimize the pool application for production, run:
-
-    ./gradlew -Pprod clean bootRepackage
-
-To ensure everything worked, run:
-
-    java -jar build/libs/*.war
-
-
-Refer to [Using JHipster in production][] for more details.
-
-## Testing
-
-To launch your application's tests, run:
-
-    ./gradlew test
-
-For more information, refer to the [Running tests page][].
-
-## Using Docker to simplify development (optional)
-
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
-
-For example, to start a mysql database in a docker container, run:
-
-    docker-compose -f src/main/docker/mysql.yml up -d
-
-To stop it and remove the container, run:
-
-    docker-compose -f src/main/docker/mysql.yml down
-
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
-
-    ./gradlew bootRepackage -Pprod buildDocker
-
-Then run:
-
-    docker-compose -f src/main/docker/app.yml up -d
-
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
-## Continuous Integration (optional)
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
-
-[JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.14.5 archive]: http://www.jhipster.tech/documentation-archive/v4.14.5
-[Doing microservices with JHipster]: http://www.jhipster.tech/documentation-archive/v4.14.5/microservices-architecture/
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.14.5/development/
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.14.5/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.14.5/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.14.5/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.14.5/setting-up-ci/
-
-
+## 3. 测试connection-pool
+Test class：src/test/java/com/arexstorm/pool/db/SQLSepc.java   
+右击运行
